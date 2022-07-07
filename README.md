@@ -13,4 +13,6 @@ Objectives
 * Learn how to create fine-grained seccomp profiles
 * Learn how to apply a container runtime default seccomp profile
 
-In order to complete all steps in this tutorial, you must have kubernetes cluster ready or you can use kind 
+In order to complete all steps in this tutorial, you must have kubernetes cluster ready or you can use [kind](https://kubernetes.io/docs/tasks/tools/#kind) and [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) to create kubernetes cluster.
+
+
