@@ -128,7 +128,12 @@ For example:
 ![image](https://user-images.githubusercontent.com/88305831/177772730-b423d54a-c511-4f18-9b1d-9d97dfee415a.png)
 
 
+You can begin to understand the syscalls required by the http-echo process by looking at the syscall= entry on each line. While these are unlikely to encompass all syscalls it uses, it can serve as a basis for a seccomp profile for this container.
 
+Clean up that Pod and Service before moving to the next section:
+
+$ "kubectl delete service audit-pod --wait"
+$ "kubectl delete pod audit-pod --wait --now"
 
 
 
