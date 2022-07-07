@@ -121,6 +121,10 @@ Open up a new terminal window for node1 and tail the output for calls from http-
 
 $ "tail -f /var/log/syslog | grep 'http-echo'"
 
+You should already see some logs of syscalls made by http-echo, and if you curl the endpoint in the control plane container you will see more written.
+
+For example:
+
 ![image](https://user-images.githubusercontent.com/88305831/177772730-b423d54a-c511-4f18-9b1d-9d97dfee415a.png)
 
 
