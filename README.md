@@ -93,9 +93,37 @@ $ "cat audit-pod.yaml"
 Create the Pod in the cluster:
 
 $ "kubectl apply -f audit-pod.yaml"
-$ "kubectl get pod/audit-pod"
 
-![image](https://user-images.githubusercontent.com/88305831/177771126-b141e23d-d315-4b43-9162-f7d41c0fef88.png)
+$ "kubectl get pod/audit-pod -o wide"
+
+![image](https://user-images.githubusercontent.com/88305831/177772515-ffe5cc04-269e-44f3-9b5c-73414dddbbcc.png)
+
+
+In order to be able to interact with this endpoint exposed by this container, create a NodePort Services that allows access to the endpoint from inside the kind control plane container.
+
+$ "kubectl expose pod audit-pod --type NodePort --port 5678"
+
+![image](https://user-images.githubusercontent.com/88305831/177771607-f647e60c-c7bf-458b-baf6-ca1e29bae77c.png)
+
+Check what port the Service has been assigned on the node.
+
+$ "kubectl get service audit-pod"
+
+![image](https://user-images.githubusercontent.com/88305831/177771676-bd156e32-eaa2-4703-b1d6-76c948054873.png)
+
+Now you can use curl to access that endpoint
+
+![image](https://user-images.githubusercontent.com/88305831/177772063-4444c537-96db-470e-b2da-8d3a2d7bf983.png)
+
+You can see that the process is running, but what syscalls did it actually make? Because this Pod is running in a local cluster on node "node1", you should be able to see those in /var/log/syslog. 
+
+Open up a new terminal window for node1 and tail the output for calls from http-echo:
+
+$ "tail -f /var/log/syslog | grep 'http-echo'"
+
+![image](https://user-images.githubusercontent.com/88305831/177772730-b423d54a-c511-4f18-9b1d-9d97dfee415a.png)
+
+
 
 
 
