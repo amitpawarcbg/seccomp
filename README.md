@@ -133,7 +133,12 @@ You can begin to understand the syscalls required by the http-echo process by lo
 Clean up that Pod and Service before moving to the next section:
 
 $ "kubectl delete service audit-pod --wait"
+
 $ "kubectl delete pod audit-pod --wait --now"
+
+![image](https://user-images.githubusercontent.com/88305831/177773436-5404d8c9-e8b5-48e0-a7dd-4ff418713759.png)
+
+---
 
 
 
