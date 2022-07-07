@@ -16,3 +16,21 @@ Objectives
 In order to complete all steps in this tutorial, you must have kubernetes cluster ready or you can use [kind](https://kubernetes.io/docs/tasks/tools/#kind) and [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) to create kubernetes cluster.
 
 
+**Note** : It is not possible to apply a seccomp profile to a container running with "privileged: true" set in the container's securityContext. Privileged containers always run as Unconfined.
+
+---
+
+# Before we begin please check below details :
+
+1. Check seccomp is supported by kernel
+* "grep -i seccomp /boot/config-$(uname -r)"
+
+2. Default location for seccomp profiles on all nodes.
+* "/var/lib/kubelet/seccomp"
+
+If it is not present the create using below command.
+
+* "mkdir -p /var/lib/kubelet/seccomp/profiles"
+
+
+
