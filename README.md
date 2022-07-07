@@ -20,6 +20,37 @@ In order to complete all steps in this tutorial, you must have kubernetes cluste
 
 # Let's go through some concepts.
 
+1. **Linux Syscalls**
+
+![Linux Syscalls](https://user-images.githubusercontent.com/88305831/177759943-aa9fcf00-50fa-4a44-b036-d4aaa43c86b9.png)
+
+2. **Why we need SecComp**
+
+![why we need SecComp](https://user-images.githubusercontent.com/88305831/177760892-c31a2248-f495-4882-8af9-ee7425240ecb.png)
+
+3. **Sample SecComp Profile**
+
+![image](https://user-images.githubusercontent.com/88305831/177761551-f8ed74f5-7285-4c13-b5c9-c77f618253d2.png)
+
+4. **SecComp Profiles**
+
+![image](https://user-images.githubusercontent.com/88305831/177762179-7ba7be1e-a1f2-499f-b442-a8c1fc420a70.png)
+
+5. **SecComp Implementation**
+
+![image](https://user-images.githubusercontent.com/88305831/177762821-24621e96-e816-4cca-96bf-9919cabbea9a.png)
+
+6. **Apply to Pod**
+
+![Apply to Pod](https://user-images.githubusercontent.com/88305831/177763146-8f7f33bb-d614-46a9-93c9-291151a3d898.png)
+
+
+
+
+
+
+
+
 
 
 
