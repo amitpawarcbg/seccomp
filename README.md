@@ -46,16 +46,6 @@ In order to complete all steps in this tutorial, you must have kubernetes cluste
 
 ![image](https://user-images.githubusercontent.com/88305831/177764070-3c1ae505-e8a2-4b3b-a431-371a1265550a.png)
 
-
-
-
-
-
-
-
-
-
-
 ---
 
 # Before we begin please check below details :
@@ -69,6 +59,46 @@ In order to complete all steps in this tutorial, you must have kubernetes cluste
 If it is not present the create using below command.
 
 * "mkdir -p /var/lib/kubelet/seccomp/profiles"
+
+# Now let's start Implementing SecComp
+
+1. **Download example seccomp profiles**
+
+The contents of these profiles will be explored later on, but for now go ahead and download them into a directory named profiles/ so that they can be loaded into the cluster.
+
+Run these commands:
+
+$ "cd /var/lib/kubelet/seccomp"
+
+$ "curl -L -o profiles/audit.json https://k8s.io/examples/pods/security/seccomp/profiles/audit.json"
+
+$ "curl -L -o profiles/violation.json https://k8s.io/examples/pods/security/seccomp/profiles/violation.json"
+
+$ "curl -L -o profiles/fine-grained.json https://k8s.io/examples/pods/security/seccomp/profiles/fine-grained.json"
+
+$ "cd profiles; ls"
+
+You should see three profiles listed at the end of the final step:
+
+![image](https://user-images.githubusercontent.com/88305831/177765428-f10febc4-177d-46d7-a360-e35158c8bb3e.png)
+
+2. **Create a Pod with a seccomp profile for syscall auditing**
+
+To start off, apply the audit.json profile, which will log all syscalls of the process, to a new Pod.
+
+$ "cat audit-pod.yaml" 
+
+![image](https://user-images.githubusercontent.com/88305831/177770581-530410fb-3133-4f41-92be-155605dc0dc7.png)
+
+Create the Pod in the cluster:
+
+$ "kubectl apply -f audit-pod.yaml"
+$ "kubectl get pod/audit-pod"
+
+![image](https://user-images.githubusercontent.com/88305831/177771126-b141e23d-d315-4b43-9162-f7d41c0fef88.png)
+
+
+
 
 
 
