@@ -18,6 +18,12 @@ In order to complete all steps in this tutorial, you must have kubernetes cluste
 
 **Note** : It is not possible to apply a seccomp profile to a container running with "privileged: true" set in the container's securityContext. Privileged containers always run as Unconfined.
 
+# Let's go through some concepts.
+
+
+
+
+
 ---
 
 # Before we begin please check below details :
