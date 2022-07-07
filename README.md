@@ -42,8 +42,9 @@ In order to complete all steps in this tutorial, you must have kubernetes cluste
 
 6. **Apply to Pod**
 
-![Apply to Pod](https://user-images.githubusercontent.com/88305831/177763146-8f7f33bb-d614-46a9-93c9-291151a3d898.png)
+![image](https://user-images.githubusercontent.com/88305831/177763515-b9a6638f-8049-4220-a2a1-2a65642f10b0.png)
 
+![image](https://user-images.githubusercontent.com/88305831/177764070-3c1ae505-e8a2-4b3b-a431-371a1265550a.png)
 
 
 
