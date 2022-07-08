@@ -140,6 +140,95 @@ $ "kubectl delete pod audit-pod --wait --now"
 
 ---
 
+**Create Pod with seccomp profile that causes violation**
+
+For demonstration, apply a profile to the Pod that does not allow for any syscalls.
+
+![image](https://user-images.githubusercontent.com/88305831/177984764-70ad0278-2eeb-4e0f-9f58-35c4304d7b6b.png)
+
+$ "kubectl apply -f violation-pod.yaml"
+
+The Pod creates, but there is an issue. If you check the status of the Pod, you should see that it failed to start.
+
+$ "kubectl get pods -o wide"
+
+![image](https://user-images.githubusercontent.com/88305831/177985120-c824dd48-af1a-4d09-8d3e-fbfd11615bb9.png)
+
+As seen in the previous example, the http-echo process requires quite a few syscalls. Here seccomp has been instructed to error on any syscall by setting "defaultAction": "SCMP_ACT_ERRNO". This is extremely secure, but removes the ability to do anything meaningful. What you really want is to give workloads only the privileges they need.
+
+Clean up that Pod before moving to the next section:
+
+$ "kubectl delete pod violation-pod --wait --now"
+
+---
+
+**Create Pod with seccomp profile that only allows necessary syscalls**
+
+If you take a look at the fine-grained.json profile, you will notice some of the syscalls seen in syslog of the first example where the profile set "defaultAction": "SCMP_ACT_LOG". Now the profile is setting "defaultAction": "SCMP_ACT_ERRNO", but explicitly allowing a set of syscalls in the "action": "SCMP_ACT_ALLOW" block. Ideally, the container will run successfully and you will see no messages sent to syslog.
+
+![image](https://user-images.githubusercontent.com/88305831/177985486-62bba71b-4bf4-4811-968c-9c1b9e9db4a4.png)
+
+
+Create the Pod in your cluster:
+
+$ "kubectl apply -f fine-pod.yaml"
+
+The Pod should be showing as having started successfully:
+
+$ "kubectl get pod fine-pod"
+
+![image](https://user-images.githubusercontent.com/88305831/177985661-eae1ab48-79a2-4e71-9dfa-8290698d23ed.png)
+
+
+
+Open up a new terminal window and use tail to monitor for log entries that mention calls from http-echo:
+
+$ "tail -f /var/log/syslog | grep 'http-echo'"
+
+Next, expose the Pod with a NodePort Service:
+
+$ "kubectl expose pod fine-pod --type NodePort --port 5678"
+
+![image](https://user-images.githubusercontent.com/88305831/177988052-cfaf7a5c-e2d4-4b0b-ae37-0253236e06d3.png)
+
+
+Check what port the Service has been assigned on the node:
+
+$ "kubectl get service fine-pod"
+
+![image](https://user-images.githubusercontent.com/88305831/177988094-25ae16d6-ce53-4fb4-80a1-1cb8d682a027.png)
+
+Use curl to access that endpoint from inside the kind control plane container:
+
+![image](https://user-images.githubusercontent.com/88305831/177988178-f71c42e5-0208-4d04-8ea7-33c30bd06e60.png)
+
+You should see no output in the syslog. This is because the profile allowed all necessary syscalls and specified that an error should occur if one outside of the list is invoked. This is an ideal situation from a security perspective, but required some effort in analyzing the program. It would be nice if there was a simple way to get closer to this security without requiring as much effort.
+
+Clean up that Pod and Service before moving to the next section:
+
+$ "kubectl delete service fine-pod --wait"
+$ "kubectl delete pod fine-pod --wait --now"
+
+---
+
+**Create Pod that uses the container runtime default seccomp profile**
+
+Most container runtimes provide a sane set of default syscalls that are allowed or not. You can adopt these defaults for your workload by setting the seccomp type in the security context of a pod or container to RuntimeDefault.
+
+![image](https://user-images.githubusercontent.com/88305831/177988511-a3a2293e-3692-477a-aa9c-09451a16f4f7.png)
+
+Create that Pod:
+
+$ "kubectl apply -f default-pod.yam"
+$ "kubectl get pod default-pod -o wide"
+
+![image](https://user-images.githubusercontent.com/88305831/177988932-78e6bf7f-ccc3-431c-9c49-c619f44c98eb.png)
+
+
+Finally, now that you saw that work OK, clean up:
+
+$ "kubectl delete pod default-pod --wait --now"
+
 
 
 
